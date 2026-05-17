@@ -1,15 +1,15 @@
-interface Column<T> {
+interface Column {
   header: string
-  accessor: keyof T | ((row: T) => React.ReactNode)
+  accessor: string | ((row: any) => React.ReactNode)
 }
 
-interface Props<T> {
-  data: T[]
-  columns: Column<T>[]
-  onRowClick?: (row: T) => void
+interface Props {
+  data: any[]
+  columns: Column[]
+  onRowClick?: (row: any) => void
 }
 
-export default function DataTable<T extends { id: string }>({ data, columns, onRowClick }: Props<T>) {
+export default function DataTable({ data, columns, onRowClick }: Props) {
   return (
     <div className="card-clean overflow-x-auto">
       <table className="table-clean w-full">
@@ -21,10 +21,10 @@ export default function DataTable<T extends { id: string }>({ data, columns, onR
           </tr>
         </thead>
         <tbody>
-          {data.map((row) => (
-            <tr key={row.id} onClick={() => onRowClick?.(row)} className={onRowClick ? 'cursor-pointer' : ''}>
-              {columns.map((col, i) => (
-                <td key={i}>
+          {data.map((row, i) => (
+            <tr key={row.id || i} onClick={() => onRowClick?.(row)} className={onRowClick ? 'cursor-pointer' : ''}>
+              {columns.map((col, j) => (
+                <td key={j}>
                   {typeof col.accessor === 'function'
                     ? col.accessor(row)
                     : String(row[col.accessor] ?? '')}

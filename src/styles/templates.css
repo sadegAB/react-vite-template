@@ -1,191 +1,134 @@
-/* ================================================
-   THEME VARIABLES — change these per project
-   ================================================ */
+/* Healthcare Theme Variables */
 :root {
-    --brand-primary: #6366f1;
-    /* main color */
-    --brand-secondary: #8b5cf6;
-    /* secondary */
-    --brand-accent: #06b6d4;
-    /* accent/highlight */
-    --sidebar-bg: #1e1b4b;
-    /* sidebar background */
-    --sidebar-text: #c7d2fe;
-    /* sidebar text */
-    --sidebar-active: #6366f1;
-    /* active nav item */
+  --brand-primary: #2563eb;
+  --brand-secondary: #0891b2;
+  --brand-accent: #059669;
+  --sidebar-bg: #1e1b4b;
+  --sidebar-text: #e0e7ff;
 }
 
-/* ================================================
-   SIDEBAR
-   ================================================ */
-.sidebar {
-    @apply w-64 min-h-screen flex flex-col p-4 gap-1;
-    background-color: var(--sidebar-bg);
-}
-
-.sidebar-logo {
-    @apply text-xl font-bold text-white mb-6 px-3 py-2;
-}
-
-.sidebar-item {
-    @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all;
-    color: var(--sidebar-text);
-}
-
-.sidebar-item:hover {
-    @apply bg-white/10 text-white;
-}
-
-.sidebar-item.active {
-    @apply text-white;
-    background-color: var(--sidebar-active);
-}
-
-/* ================================================
-   PAGE LAYOUT
-   ================================================ */
-.page-wrapper {
-    @apply flex-1 flex flex-col overflow-hidden bg-base-200;
-}
-
-.page-content {
-    @apply flex-1 overflow-y-auto p-6;
-}
-
-.page-header {
-    @apply flex items-center justify-between mb-6;
-}
-
-.page-title {
-    @apply text-2xl font-bold text-base-content;
-}
-
-.page-subtitle {
-    @apply text-sm text-base-content/60 mt-1;
-}
-
-/* ================================================
-   CARDS
-   ================================================ */
+/* Card styles */
 .card-clean {
-    @apply bg-base-100 rounded-xl border border-base-300 shadow-sm;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  background: white;
 }
 
 .card-stat {
-    @apply bg-base-100 rounded-xl border border-base-300 p-6 shadow-sm;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+  color: white;
 }
 
-.card-stat-value {
-    @apply text-3xl font-bold text-base-content;
-}
-
-.card-stat-label {
-    @apply text-sm text-base-content/60 mt-1;
-}
-
-/* ================================================
-   TABLE
-   ================================================ */
+/* Table styles */
 .table-clean {
-    @apply w-full text-sm;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .table-clean th {
-    @apply px-4 py-3 text-left text-xs font-semibold text-base-content/50 uppercase tracking-wider bg-base-200 border-b border-base-300;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .table-clean td {
-    @apply px-4 py-3 border-b border-base-200 text-base-content;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
 }
 
-.table-clean tr:hover td {
-    @apply bg-base-200/50;
-}
-
-.table-clean tr:last-child td {
-    @apply border-0;
-}
-
-/* ================================================
-   BADGES / STATUS
-   ================================================ */
-.badge-pending {
-    @apply badge badge-warning badge-sm;
-}
-
-.badge-confirmed {
-    @apply badge badge-success badge-sm;
-}
-
-.badge-cancelled {
-    @apply badge badge-error badge-sm;
-}
-
-.badge-active {
-    @apply badge badge-success badge-sm;
-}
-
-.badge-inactive {
-    @apply badge badge-ghost badge-sm;
-}
-
-/* ================================================
-   FORMS
-   ================================================ */
+/* Form styles */
 .form-card {
-    @apply bg-base-100 rounded-xl border border-base-300 shadow-sm p-6 max-w-2xl;
-}
-
-.form-section-title {
-    @apply text-base font-semibold text-base-content mb-4 pb-2 border-b border-base-300;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  background: white;
+  padding: 1.5rem;
 }
 
 .form-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
 
-.form-group {
-    @apply flex flex-col gap-1;
+@media (min-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-.form-label {
-    @apply text-sm font-medium text-base-content/70;
+/* Badge styles */
+.badge-pending {
+  background-color: #fef3c7;
+  color: #92400e;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
-/* ================================================
-   EMPTY STATE
-   ================================================ */
-.empty-state {
-    @apply flex flex-col items-center justify-center py-16 text-center;
+.badge-confirmed {
+  background-color: #d1fae5;
+  color: #065f46;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
-.empty-state-icon {
-    @apply text-5xl mb-4;
+.badge-cancelled {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
-.empty-state-title {
-    @apply text-lg font-semibold text-base-content mb-2;
-}
-
-.empty-state-subtitle {
-    @apply text-sm text-base-content/50;
-}
-
-/* ================================================
-   NAVBAR
-   ================================================ */
-.top-navbar {
-    @apply navbar bg-base-100 border-b border-base-300 px-6 min-h-14;
-}
-
-/* ================================================
-   PILLS (for tags, days, etc)
-   ================================================ */
+/* Pill/tag */
 .pill {
-    @apply px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary;
+  display: inline-block;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: #e0e7ff;
+  color: #3730a3;
 }
 
-.pill-secondary {
-    @apply px-2 py-0.5 rounded-full text-xs font-medium bg-secondary/10 text-secondary;
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: #9ca3af;
+}
+
+/* Sidebar */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  color: var(--sidebar-text);
+  transition: background 0.2s;
+}
+
+.sidebar-item:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Page title */
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1.5rem;
 }

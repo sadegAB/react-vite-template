@@ -8,6 +8,8 @@ const statusMap: Record<string, string> = {
   cancelled: 'badge-cancelled',
   active: 'badge-active',
   inactive: 'badge-inactive',
+  available: 'badge-confirmed',
+  unavailable: 'badge-cancelled',
 }
 
 export default function StatusBadge({ status }: Props) {
