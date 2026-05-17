@@ -8,7 +8,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: 'Home', path: '/', icon: '🏠' },
-  // Add items here as you create pages
+  { label: 'Hospitals', path: '/hospitals', icon: '🏥' },
 ]
 
 export default function Sidebar() {
