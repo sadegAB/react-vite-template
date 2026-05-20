@@ -1,52 +1,85 @@
-# Agent Instructions — How to Extend This Frontend
+# Agent Instructions
 
-You are an AI frontend agent. Read HANDOFF.md first. Follow these steps strictly.
+You are working inside a reusable React + Vite + TypeScript frontend template.
 
-## Rules
-- NEVER modify src/api/client.ts
-- NEVER modify src/hooks/useApi.ts
-- NEVER modify src/layouts/MainLayout.tsx
-- ALWAYS use useApi() hook for data fetching
-- ALWAYS use client from src/api/client.ts for API calls
-- ALWAYS use Tailwind classes — no inline styles
-- ALWAYS define types before using them
-- NEVER use any UI library — only Tailwind
+Read this file before editing the project.
 
-## To Add a New Feature
+## Core Rules
 
-Given feature name e.g. "doctors":
+- Keep the template clean, simple, and reusable.
+- Do not add production-specific business logic to shared template files.
+- Do not add new packages unless the task explicitly requires them.
+- Do not commit secrets or environment files.
+- Do not use inline styles.
+- Use TypeScript types for API data, component props, and form data.
+- Run lint and build before considering the task complete.
 
-1. CREATE src/types/{feature}.ts
-   - XxxCreate interface — fields only, no id/timestamps
-   - Xxx interface — extends XxxCreate, adds id, created_at, updated_at
+## UI Rules
 
-2. CREATE src/api/{feature}.ts
-   - Import client from ./client
-   - Import types from ../types/{feature}
-   - Export: getXxxs, getXxx, createXxx, updateXxx, deleteXxx
+- Use DaisyUI through Tailwind class names.
+- Do not install another UI library.
+- Prefer shared components from src/components.
+- Pages should compose shared components instead of redefining repeated UI patterns.
+- Use DaisyUI theme classes such as bg-base-100, bg-base-200, text-base-content, btn, card, table, badge, alert, input, select, and textarea.
 
-3. EDIT src/api/index.ts
-   - Add: export * from './{feature}'
+## API Rules
 
-4. CREATE src/pages/{feature}/{Feature}Page.tsx
-   - Import useApi from ../../hooks/useApi
-   - Import api functions from ../../api/{feature}
-   - Import PageHeader, LoadingSpinner, ErrorMessage from ../../components/
-   - Show loading state, error state, data state
+- Use src/api/client.ts for HTTP requests.
+- Put feature API functions in src/api/{feature}.ts.
+- Export feature API modules from src/api/index.ts.
+- API functions should return response.data, not full Axios responses.
 
-5. EDIT App.tsx
-   - Import the new page
-   - Add Route inside the MainLayout route
+API example:
 
-6. EDIT src/layouts/Sidebar.tsx
-   - Add nav item to navItems array
+export const getItems = () =>
+  client.get<Item[]>('/items').then((response) => response.data)
+
+## Hook Rules
+
+- Use useApi() for simple data loading.
+- useApi() accepts one stable function only.
+- If the API function needs parameters, wrap it with useCallback.
+
+Hook example:
+
+const loadItem = useCallback(() => getItem(id), [id])
+const { data, loading, error } = useApi(loadItem)
+
+## Feature Structure
+
+For a new feature named products, prefer:
+
+src/
+  api/
+    products.ts
+  pages/
+    products/
+      ProductsPage.tsx
+      ProductDetailsPage.tsx
+      ProductFormPage.tsx
+  types/
+    products.ts
+
+## Adding a New Feature
+
+1. Create types in src/types/{feature}.ts.
+2. Create API functions in src/api/{feature}.ts.
+3. Export the API file from src/api/index.ts.
+4. Create pages in src/pages/{feature}/.
+5. Register routes in src/App.tsx.
+6. Add navigation items in src/layouts/Sidebar.tsx.
+7. Run lint and build.
 
 ## Validation Checklist
-- [ ] Types defined before used
-- [ ] API functions return correct types
-- [ ] useApi used for all data fetching
-- [ ] Loading and error states handled
-- [ ] Page added to App.tsx routes
-- [ ] Nav item added to Sidebar.tsx
-- [ ] No inline styles
-- [ ] No unused imports
+
+- [ ] Types are defined before use.
+- [ ] API functions return typed data.
+- [ ] Loading state is handled.
+- [ ] Error state is handled.
+- [ ] Empty state is handled where needed.
+- [ ] Routes are registered.
+- [ ] Sidebar navigation is updated when needed.
+- [ ] No inline styles.
+- [ ] No unused imports.
+- [ ] npm run lint passes.
+- [ ] npm run build passes.
