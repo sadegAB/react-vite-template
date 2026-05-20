@@ -1,43 +1,57 @@
-interface Column<T> {
+import type { ReactNode } from 'react'
+
+export interface DataTableColumn<T> {
   header: string
-  accessor: keyof T | ((row: T) => React.ReactNode)
+  accessor: keyof T | ((row: T) => ReactNode)
 }
 
-interface Props<T> {
+interface DataTableProps<T> {
   data: T[]
-  columns: Column<T>[]
+  columns: DataTableColumn<T>[]
+  emptyMessage?: string
   onRowClick?: (row: T) => void
 }
 
-export default function DataTable<T extends { id: string }>({ data, columns, onRowClick }: Props<T>) {
+export default function DataTable<T extends { id: string }>({
+  data,
+  columns,
+  emptyMessage = 'No records found',
+  onRowClick,
+}: DataTableProps<T>) {
   return (
-    <div className="card-clean overflow-x-auto">
-      <table className="table-clean w-full">
+    <div className="overflow-x-auto rounded-box border border-base-300 bg-base-100">
+      <table className="table">
         <thead>
           <tr>
-            {columns.map((col, i) => (
-              <th key={i}>{col.header}</th>
+            {columns.map((column) => (
+              <th key={column.header}>{column.header}</th>
             ))}
           </tr>
         </thead>
+
         <tbody>
-          {data.map((row) => (
-            <tr key={row.id} onClick={() => onRowClick?.(row)} className={onRowClick ? 'cursor-pointer' : ''}>
-              {columns.map((col, i) => (
-                <td key={i}>
-                  {typeof col.accessor === 'function'
-                    ? col.accessor(row)
-                    : String(row[col.accessor] ?? '')}
-                </td>
-              ))}
-            </tr>
-          ))}
-          {data.length === 0 && (
+          {data.length === 0 ? (
             <tr>
-              <td colSpan={columns.length} className="text-center py-12 text-base-content/40">
-                No records found
+              <td colSpan={columns.length} className="py-10 text-center text-base-content/60">
+                {emptyMessage}
               </td>
             </tr>
+          ) : (
+            data.map((row) => (
+              <tr
+                key={row.id}
+                className={onRowClick ? 'cursor-pointer hover' : undefined}
+                onClick={() => onRowClick?.(row)}
+              >
+                {columns.map((column) => (
+                  <td key={column.header}>
+                    {typeof column.accessor === 'function'
+                      ? column.accessor(row)
+                      : String(row[column.accessor] ?? '')}
+                  </td>
+                ))}
+              </tr>
+            ))
           )}
         </tbody>
       </table>

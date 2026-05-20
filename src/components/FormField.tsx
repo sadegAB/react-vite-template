@@ -1,16 +1,25 @@
+import type { ReactNode } from 'react'
 
-interface Props {
+interface FormFieldProps {
   label: string
   error?: string
-  children: React.ReactNode
+  children: ReactNode
 }
 
-export default function FormField({ label, error, children }: Props) {
+export default function FormField({ label, error, children }: FormFieldProps) {
   return (
-    <div className="form-group">
-      <label className="form-label">{label}</label>
+    <div className="form-control w-full gap-1">
+      <label className="label">
+        <span className="label-text">{label}</span>
+      </label>
+
       {children}
-      {error && <span className="text-error text-xs">{error}</span>}
+
+      {error && (
+        <label className="label">
+          <span className="label-text-alt text-error">{error}</span>
+        </label>
+      )}
     </div>
   )
 }
