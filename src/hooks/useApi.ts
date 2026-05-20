@@ -12,7 +12,7 @@ function getErrorMessage(error: unknown): string {
   return apiError.detail || 'Something went wrong'
 }
 
-export function useApi<T>(fn: () => Promise<T>, deps: unknown[] = []) {
+export function useApi<T>(fn: () => Promise<T>) {
   const [state, setState] = useState<UseApiState<T>>({
     data: null,
     loading: true,
@@ -22,14 +22,10 @@ export function useApi<T>(fn: () => Promise<T>, deps: unknown[] = []) {
   useEffect(() => {
     let cancelled = false
 
-    setState({
-      data: null,
-      loading: true,
-      error: null,
-    })
+    async function loadData() {
+      try {
+        const data = await fn()
 
-    fn()
-      .then((data) => {
         if (!cancelled) {
           setState({
             data,
@@ -37,8 +33,7 @@ export function useApi<T>(fn: () => Promise<T>, deps: unknown[] = []) {
             error: null,
           })
         }
-      })
-      .catch((error: unknown) => {
+      } catch (error: unknown) {
         if (!cancelled) {
           setState({
             data: null,
@@ -46,12 +41,15 @@ export function useApi<T>(fn: () => Promise<T>, deps: unknown[] = []) {
             error: getErrorMessage(error),
           })
         }
-      })
+      }
+    }
+
+    void loadData()
 
     return () => {
       cancelled = true
     }
-  }, deps)
+  }, [fn])
 
   return state
 }
