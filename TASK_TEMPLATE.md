@@ -1,66 +1,128 @@
-# Project Title
+# Task Template
+
+## Project Title
+
+Write the project or feature name.
 
 ## Goal
-Brief description of what to build.
+
+Briefly describe what should be built.
 
 ## Backend API URL
+
 http://localhost:8000
 
 ## Pages to Build
-List every page needed:
-- /feature — list all items
-- /feature/new — create form
-- /feature/:id — detail view
-- /feature/:id/edit — edit form
+
+List every page needed.
+
+Example:
+
+- /feature
+- /feature/new
+- /feature/:id
+- /feature/:id/edit
 
 ## Data Types
-Define every type with fields:
 
-### TypeName
-- field_name: type (string, number, boolean)
-- optional_field?: type
+Define every type and field.
+
+Example:
+
+TypeName:
+- id: string
+- name: string
+- status: string
+- created_at: string
+- optional_field?: string
+
+CreateType:
+- name: string
+- status: string
 
 ## API Endpoints Used
-List every endpoint the frontend will call:
-- GET /feature — list
-- POST /feature — create
-- GET /feature/:id — get one
-- PATCH /feature/:id — update
-- DELETE /feature/:id — delete
+
+List every endpoint the frontend will call.
+
+Example:
+
+- GET /feature
+- POST /feature
+- GET /feature/:id
+- PATCH /feature/:id
+- DELETE /feature/:id
+
+## Navigation
+
+List sidebar items needed.
+
+Example:
+
+- label: Products
+- path: /products
 
 ## UI Requirements
-- Sidebar nav items needed
-- Any special components (charts, calendars, modals)
-- Any filters or search needed
+
+List special UI needs.
+
+Example:
+
+- table
+- create form
+- edit form
+- detail page
+- search input
+- filters
+- modal
+- status badges
+- empty state
 
 ## Technical Constraints
-- Use existing template: React + Vite + TypeScript + Tailwind
-- Use useApi() hook for all data fetching
-- Use client from src/api/client.ts for all API calls
-- No new packages unless absolutely necessary
-- If new package needed, add to package.json
+
+- Use the existing React + Vite + TypeScript template.
+- Use Tailwind CSS and DaisyUI classes.
+- Use shared components from src/components.
+- Use client from src/api/client.ts for API calls.
+- Use useApi() for simple data loading.
+- No inline styles.
+- No new packages unless explicitly required.
 
 ## Planning Rules
-- Each phase produces working, importable code
-- No setup phases — template already exists
-- Good phases:
-  - Types for all features
-  - API functions for all features
-  - List pages
-  - Form pages (create/edit)
-  - Route and nav registration
-- Bad phases:
-  - Install dependencies
-  - Configure vite
-  - Setup project
+
+## Planning Rules
+
+Good phases:
+
+- types
+- API functions
+- list page
+- detail page
+- create/edit form
+- route registration
+- sidebar registration
+
+Bad phases:
+
+- setup project
+- configure Vite
+- replace template structure
+- add unrelated packages
+- rewrite shared files without need
 
 ## Import Rules
-- Always import useApi from ../../hooks/useApi
-- Always import client from ./client (inside api/)
-- Always import types from ../types/{feature}
-- Always import components from ../../components/
 
-## Output Rules
-- No markdown fences around code
-- Return ONLY raw file content
-- No explanations
+- Import API client from ./client inside src/api files.
+- Import useApi from ../../hooks/useApi inside pages.
+- Import shared components from ../../components.
+- Import feature types from ../../types/{feature}.
+
+## Completion Rules
+
+Before finishing:
+
+- npm run lint must pass.
+- npm run build must pass.
+- No unused imports.
+- No broken routes.
+- No committed .env files.
+
