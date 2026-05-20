@@ -1,110 +1,181 @@
-# React Vite Template — Handoff Document
+# React Vite Template Handoff
 
 ## Overview
-Clean reusable React + Vite + TypeScript + TailwindCSS frontend template.
-Connects to a FastAPI backend via axios. No UI library — pure Tailwind.
+
+This is a clean reusable frontend template using:
+
+- React
+- Vite
+- TypeScript
+- React Router
+- Axios
+- Tailwind CSS
+- DaisyUI
+- ESLint
+
+The template connects to a backend API through Axios.
+
+## Current Status
+
+The template is clean when these commands pass:
+
+npm run lint
+npm run build
 
 ## File Structure
+
 src/
-├── api/
-│   ├── client.ts        # axios instance, base URL from .env
-│   └── index.ts         # exports all api modules
-├── types/
-│   └── index.ts         # shared TypeScript interfaces
-├── components/
-│   ├── LoadingSpinner.tsx
-│   ├── ErrorMessage.tsx
-│   └── PageHeader.tsx
-├── layouts/
-│   ├── MainLayout.tsx   # Sidebar + Navbar + Outlet
-│   ├── Sidebar.tsx      # nav items list
-│   └── Navbar.tsx       # top bar
-├── pages/
-│   └── Home.tsx         # example page
-├── hooks/
-│   └── useApi.ts        # generic data fetching hook
-└── App.tsx              # router + routes
+  api/
+    client.ts
+    index.ts
+  components/
+    DataTable.tsx
+    ErrorMessage.tsx
+    FormField.tsx
+    LoadingSpinner.tsx
+    PageHeader.tsx
+    StatusBadge.tsx
+  hooks/
+    useApi.ts
+    useMutation.ts
+  layouts/
+    MainLayout.tsx
+    Navbar.tsx
+    Sidebar.tsx
+  pages/
+    Home.tsx
+  types/
+    index.ts
+  App.tsx
+  index.css
+  main.tsx
 
-## Conventions
-- API base URL: from VITE_API_URL in .env
-- All API calls: use client from src/api/client.ts
-- All fetch logic: use useApi() hook from src/hooks/useApi.ts
-- All types: define in src/types/index.ts or src/types/{feature}.ts
-- All pages: one file per feature in src/pages/{feature}/
-- All API functions: one file per feature in src/api/{feature}.ts
-- Shared components: src/components/
-- No inline styles — Tailwind classes only
+docs/
+  templates/
+    CreatePage.template.txt
+    DetailPage.template.txt
+    ListPage.template.txt
 
-## How to Add a New Feature (e.g. "doctors")
+## Important Rules
 
-### Step 1 — Add types in src/types/doctors.ts
-export interface Doctor {
-  id: string
-  name: string
-  specialty: string
-  created_at?: string
-}
+- Do not commit .env files.
+- Use .env.example for environment variable examples.
+- Use Tailwind CSS and DaisyUI classes.
+- Do not use inline styles.
+- Do not install another UI framework unless explicitly required.
+- Use shared components from src/components.
+- Keep src/ for real compilable app code only.
+- Keep placeholder templates in docs/templates, not src/.
 
-export interface DoctorCreate {
-  name: string
-  specialty: string
-}
+## API Convention
 
-### Step 2 — Add API functions in src/api/doctors.ts
+API base URL comes from:
+
+VITE_API_URL
+
+Default fallback:
+
+http://localhost:8000
+
+All API calls should use:
+
+src/api/client.ts
+
+Feature API files should be placed in:
+
+src/api/{feature}.ts
+
+API functions should return response.data.
+
+Example:
+
 import client from './client'
-import { Doctor, DoctorCreate } from '../types/doctors'
+import type { Doctor, DoctorCreate } from '../types/doctors'
 
 export const getDoctors = () =>
-  client.get<Doctor[]>('/doctors').then(r => r.data)
+  client.get<Doctor[]>('/doctors').then((response) => response.data)
 
 export const getDoctor = (id: string) =>
-  client.get<Doctor>(`/doctors/${id}`).then(r => r.data)
+  client.get<Doctor>(`/doctors/${id}`).then((response) => response.data)
 
 export const createDoctor = (data: DoctorCreate) =>
-  client.post<Doctor>('/doctors', data).then(r => r.data)
+  client.post<Doctor>('/doctors', data).then((response) => response.data)
 
 export const updateDoctor = (id: string, data: DoctorCreate) =>
-  client.patch<Doctor>(`/doctors/${id}`, data).then(r => r.data)
+  client.patch<Doctor>(`/doctors/${id}`, data).then((response) => response.data)
 
 export const deleteDoctor = (id: string) =>
-  client.delete(`/doctors/${id}`).then(r => r.data)
+  client.delete(`/doctors/${id}`).then((response) => response.data)
 
-### Step 3 — Export from src/api/index.ts
-export * from './doctors'
+## Hook Convention
 
-### Step 4 — Create page src/pages/doctors/DoctorsPage.tsx
-import { useApi } from '../../hooks/useApi'
-import { getDoctors } from '../../api/doctors'
-import PageHeader from '../../components/PageHeader'
-import LoadingSpinner from '../../components/LoadingSpinner'
-import ErrorMessage from '../../components/ErrorMessage'
+Use useApi() for simple data loading.
 
-export default function DoctorsPage() {
-  const { data, loading, error } = useApi(getDoctors, [])
+Correct:
 
-  if (loading) return <LoadingSpinner />
-  if (error) return <ErrorMessage message={error} />
+const { data, loading, error } = useApi(getDoctors)
 
-  return (
-    <div>
-      <PageHeader title="Doctors" subtitle="Manage doctors" />
-      <div className="bg-white rounded-xl border border-gray-200">
-        {data?.map(doctor => (
-          <div key={doctor.id} className="px-6 py-4 border-b border-gray-100 last:border-0">
-            <p className="font-medium text-gray-900">{doctor.name}</p>
-            <p className="text-sm text-gray-500">{doctor.specialty}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
+For parameterized API calls, use useCallback.
 
-### Step 5 — Add route in App.tsx
-import DoctorsPage from './pages/doctors/DoctorsPage'
-<Route path="doctors" element={<DoctorsPage />} />
+Correct:
 
-### Step 6 — Add nav item in src/layouts/Sidebar.tsx
-{ label: 'Doctors', path: '/doctors', icon: '👨‍⚕️' }
+const loadDoctor = useCallback(() => getDoctor(id), [id])
+const { data, loading, error } = useApi(loadDoctor)
 
-### Step 7 — Done
+Do not use the old pattern:
+
+useApi(getDoctors, [])
+
+## Example Feature Flow
+
+For a feature named doctors:
+
+1. Create src/types/doctors.ts.
+2. Create src/api/doctors.ts.
+3. Export from src/api/index.ts.
+4. Create pages under src/pages/doctors/.
+5. Register routes in src/App.tsx.
+6. Add sidebar item in src/layouts/Sidebar.tsx.
+7. Run npm run lint.
+8. Run npm run build.
+
+## Sidebar Pattern
+
+Current sidebar nav items use:
+
+label
+path
+
+Example:
+
+const navItems = [
+  { label: 'Home', path: '/' },
+  { label: 'Doctors', path: '/doctors' },
+]
+
+Do not add icon fields unless the Sidebar component is intentionally updated.
+
+## Page Pattern
+
+A basic list page should:
+
+- use PageHeader
+- use PageHeader
+- use LoadingSpinner
+- use ErrorMessage
+- use DataTable or DaisyUI table classes
+- handle empty states
+- avoid inline styles
+
+## Completion Checklist
+
+Before handoff:
+
+- npm run lint passes
+- npm run build passes
+- git status is clean
+- no .env file is tracked
+- no placeholder files are inside src/
+- no unused imports
+- README and AGENT_INSTRUCTIONS match the current template behavior
+
