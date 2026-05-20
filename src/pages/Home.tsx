@@ -1,25 +1,37 @@
 import PageHeader from '../components/PageHeader'
 
+const starterCards = [
+  {
+    title: 'Create features',
+    description: 'Add feature folders under src/features and connect them through routes.',
+  },
+  {
+    title: 'Use shared UI',
+    description: 'Build pages using shared components and DaisyUI classes instead of custom global CSS.',
+  },
+  {
+    title: 'Connect APIs',
+    description: 'Place API clients in src/api and call them through typed hooks or feature services.',
+  },
+]
+
 export default function Home() {
   return (
     <div>
       <PageHeader
-        title="Welcome"
-        subtitle="Select a section from the sidebar to get started."
+        title="React Vite Template"
+        subtitle="A clean starter template using React, Vite, TypeScript, Tailwind, and DaisyUI."
       />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <h3 className="font-semibold text-gray-900 mb-1">Feature 1</h3>
-          <p className="text-gray-500 text-sm">Add your first feature here.</p>
-        </div>
-        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <h3 className="font-semibold text-gray-900 mb-1">Feature 2</h3>
-          <p className="text-gray-500 text-sm">Add your second feature here.</p>
-        </div>
-        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <h3 className="font-semibold text-gray-900 mb-1">Feature 3</h3>
-          <p className="text-gray-500 text-sm">Add your third feature here.</p>
-        </div>
+
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        {starterCards.map((card) => (
+          <div key={card.title} className="card border border-base-300 bg-base-100 shadow-sm">
+            <div className="card-body">
+              <h2 className="card-title">{card.title}</h2>
+              <p className="text-sm text-base-content/70">{card.description}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )
