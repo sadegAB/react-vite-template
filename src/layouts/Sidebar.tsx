@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import { APP_NAME } from '../config/app'
 
 interface NavItem {
   label: string
@@ -12,26 +13,22 @@ const navItems: NavItem[] = [
 
 export default function Sidebar() {
   return (
-    <aside className="w-64 bg-gray-900 text-white min-h-screen p-4">
-      <div className="mb-8">
-        <h2 className="text-xl font-bold text-white">AppName</h2>
+    <aside className="min-h-screen w-64 border-r border-base-300 bg-base-100 p-4">
+      <div className="mb-6 px-3 py-2">
+        <h2 className="text-lg font-bold text-base-content">{APP_NAME}</h2>
+        <p className="text-xs text-base-content/60">Frontend Template</p>
       </div>
 
-      <nav className="space-y-1">
+      <nav className="menu w-full p-0">
         {navItems.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                isActive
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-              }`
-            }
-          >
-            {item.label}
-          </NavLink>
+          <li key={item.path}>
+            <NavLink
+              to={item.path}
+              className={({ isActive }) => (isActive ? 'active' : undefined)}
+            >
+              {item.label}
+            </NavLink>
+          </li>
         ))}
       </nav>
     </aside>
