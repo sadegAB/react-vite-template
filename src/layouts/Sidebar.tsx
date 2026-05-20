@@ -3,11 +3,10 @@ import { NavLink } from 'react-router-dom'
 interface NavItem {
   label: string
   path: string
-  icon?: string
 }
 
 const navItems: NavItem[] = [
-  { label: 'Home', path: '/', icon: '🏠' },
+  { label: 'Home', path: '/' },
   // Add items here as you create pages
 ]
 
@@ -17,6 +16,7 @@ export default function Sidebar() {
       <div className="mb-8">
         <h2 className="text-xl font-bold text-white">AppName</h2>
       </div>
+
       <nav className="space-y-1">
         {navItems.map((item) => (
           <NavLink
@@ -30,7 +30,6 @@ export default function Sidebar() {
               }`
             }
           >
-            {item.icon && <span>{item.icon}</span>}
             {item.label}
           </NavLink>
         ))}
