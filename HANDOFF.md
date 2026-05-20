@@ -122,9 +122,7 @@ Correct:
 const loadDoctor = useCallback(() => getDoctor(id), [id])
 const { data, loading, error } = useApi(loadDoctor)
 
-Do not use the old pattern:
-
-useApi(getDoctors, [])
+Do not pass a second dependency-array argument to useApi.
 
 ## Example Feature Flow
 
@@ -178,4 +176,5 @@ Before handoff:
 - no placeholder files are inside src/
 - no unused imports
 - README and AGENT_INSTRUCTIONS match the current template behavior
+
 
