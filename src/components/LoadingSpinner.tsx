@@ -1,7 +1,12 @@
-export default function LoadingSpinner() {
+interface LoadingSpinnerProps {
+  label?: string
+}
+
+export default function LoadingSpinner({ label = 'Loading...' }: LoadingSpinnerProps) {
   return (
-    <div className="flex items-center justify-center p-8">
-      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+    <div className="flex items-center justify-center gap-3 p-8 text-base-content/70">
+      <span className="loading loading-spinner loading-md" />
+      <span>{label}</span>
     </div>
   )
 }

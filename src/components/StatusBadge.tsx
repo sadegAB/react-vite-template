@@ -1,16 +1,18 @@
-interface Props {
+interface StatusBadgeProps {
   status: string
 }
 
-const statusMap: Record<string, string> = {
-  pending: 'badge-pending',
-  confirmed: 'badge-confirmed',
-  cancelled: 'badge-cancelled',
-  active: 'badge-active',
-  inactive: 'badge-inactive',
+const statusClassMap: Record<string, string> = {
+  pending: 'badge-warning',
+  confirmed: 'badge-success',
+  cancelled: 'badge-error',
+  active: 'badge-success',
+  inactive: 'badge-ghost',
 }
 
-export default function StatusBadge({ status }: Props) {
-  const cls = statusMap[status.toLowerCase()] || 'badge badge-ghost badge-sm'
-  return <span className={cls}>{status}</span>
+export default function StatusBadge({ status }: StatusBadgeProps) {
+  const statusKey = status.toLowerCase()
+  const statusClass = statusClassMap[statusKey] ?? 'badge-neutral'
+
+  return <span className={`badge badge-sm ${statusClass}`}>{status}</span>
 }
