@@ -1,0 +1,112 @@
+# Feature CRUD Pattern
+
+Use this pattern when adding a new CRUD feature.
+
+Example feature name: products
+
+## Files to create
+
+src/types/products.ts
+src/api/products.ts
+src/pages/products/ProductsPage.tsx
+src/pages/products/ProductFormPage.tsx
+
+## Files to edit
+
+src/api/index.ts
+src/App.tsx
+src/layouts/Sidebar.tsx
+
+## Step 1 - Types
+
+Create src/types/products.ts
+
+Product:
+- id: string
+- name: string
+- status: string
+- created_at?: string
+- updated_at?: string
+
+ProductCreate:
+- name: string
+- status: string
+
+## Step 2 - API functions
+
+Create src/api/products.ts
+
+Rules:
+- import client from ./client
+- import types from ../types/products
+- return response.data
+- do not return full Axios responses
+
+Required functions:
+- getProducts
+- getProduct
+- createProduct
+- updateProduct
+- deleteProduct
+
+## Step 3 - List page
+
+Create src/pages/products/ProductsPage.tsx
+
+Rules:
+- use PageHeader
+- use LoadingSpinner
+- use ErrorMessage
+- use DataTable
+- use StatusBadge where needed
+- handle loading state
+- handle error state
+- handle empty state
+
+Correct useApi pattern:
+
+const { data, loading, error } = useApi(getProducts)
+
+Do not pass a second dependency-array argument to useApi.
+
+## Step 4 - Detail or edit page with route parameter
+
+When using route params, wrap API calls with useCallback.
+
+Correct pattern:
+
+const loadProduct = useCallback(() => getProduct(id), [id])
+const { data, loading, error } = useApi(loadProduct)
+
+## Step 5 - Routes
+
+Edit src/App.tsx
+
+Example routes:
+
+<Route path="products" element={<ProductsPage />} />
+<Route path="products/new" element={<ProductFormPage />} />
+<Route path="products/:id/edit" element={<ProductFormPage />} />
+
+## Step 6 - Sidebar
+
+Edit src/layouts/Sidebar.tsx
+
+Add:
+
+{ label: 'Products', path: '/products' }
+
+Current sidebar items use only:
+- label
+- path
+
+Do not add icon unless the Sidebar component is intentionally updated.
+
+## Step 7 - Validation
+
+Run:
+
+npm run lint
+npm run build
+
+Both must pass.
