@@ -1,73 +1,125 @@
-# React + TypeScript + Vite
+# React Vite Template
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Clean frontend starter template using React, Vite, TypeScript, React Router, Axios, Tailwind CSS, DaisyUI, and ESLint.
 
-Currently, two official plugins are available:
+This template is designed to be easy for humans and AI coding agents to extend.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Purpose
 
-## React Compiler
+Use this repository as a clean starting point for frontend applications that connect to a backend API.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The template provides:
 
-## Expanding the ESLint configuration
+- app layout
+- navbar
+- sidebar
+- router setup
+- Axios client
+- reusable data hooks
+- shared UI components
+- DaisyUI-ready styling
+- clear agent instructions
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Install dependencies:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+npm install
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Start the dev server:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+npm run dev
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Run lint:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+npm run lint
+
+Build for production:
+
+npm run build
+
+Preview production build:
+
+npm run preview
+
+## Environment Variables
+
+Create a local .env file based on .env.example.
+
+VITE_API_URL=http://localhost:8000
+
+Do not commit .env.
+
+## Project Structure
+
+src/
+  api/
+    client.ts
+    index.ts
+  components/
+    DataTable.tsx
+    ErrorMessage.tsx
+    FormField.tsx
+    LoadingSpinner.tsx
+    PageHeader.tsx
+    StatusBadge.tsx
+  hooks/
+    useApi.ts
+    useMutation.ts
+  layouts/
+    MainLayout.tsx
+    Navbar.tsx
+    Sidebar.tsx
+  pages/
+    Home.tsx
+  types/
+    index.ts
+  App.tsx
+  index.css
+  main.tsx
+
+## UI Rules
+
+Use DaisyUI classes through Tailwind class names.
+
+Preferred examples:
+
+button className="btn btn-primary"
+div className="card bg-base-100 shadow-sm"
+table className="table"
+span className="badge badge-success"
+
+Do not add another UI framework unless the task explicitly requires it.
+
+## API Pattern
+
+Create feature API files under src/api.
+
+Example:
+
+import client from './client'
+import type { Product, ProductCreate } from '../types/products'
+
+export const getProducts = () =>
+  client.get<Product[]>('/products').then((response) => response.data)
+
+export const createProduct = (data: ProductCreate) =>
+  client.post<Product>('/products', data).then((response) => response.data)
+
+## Data Loading Pattern
+
+Use useApi() for simple data loading.
+
+const { data, loading, error } = useApi(getProducts)
+
+For parameterized requests, use useCallback.
+
+const loadProduct = useCallback(() => getProduct(id), [id])
+const { data, loading, error } = useApi(loadProduct)
+
+## Template Rules
+
+Before finishing any change:
+
+npm run lint
+npm run build
